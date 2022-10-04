@@ -1,5 +1,5 @@
 import { Controller, Get } from '@nestjs/common';
-import { EventPattern } from '@nestjs/microservices';
+import { EventPattern, MessagePattern } from '@nestjs/microservices';
 import { AppService } from './app.service';
 
 @Controller()
@@ -11,8 +11,15 @@ export class AppController {
     return this.appService.getHello();
 	}
 	
-	@EventPattern('post')
+	// @EventPattern('post')
+	@MessagePattern('post')
+	// @MessagePattern('comment-hello')
 	eventFromPost(data: string) {
+		console.log(data);
+	}
+
+	@MessagePattern('comment-hello')
+	eventFromComment(data: string) {
 		console.log(data);
 	}
 
