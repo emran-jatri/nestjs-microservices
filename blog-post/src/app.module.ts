@@ -18,6 +18,17 @@ import { AppService } from './app.service';
           },
         },
       },
+      {
+        name: 'COMMENT_SERVICE',
+        transport: Transport.RMQ,
+        options: {
+          urls: ['amqps://jibzlvbd:QwX5CKtkkKdCtukf72eUxQSUO4vecBzE@dingo.rmq.cloudamqp.com/jibzlvbd'],
+          queue: 'comment_queue',
+          queueOptions: {
+            durable: false
+          },
+        },
+      },
     ]),
 	],
   controllers: [AppController],
