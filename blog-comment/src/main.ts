@@ -17,5 +17,6 @@ async function bootstrap() {
 
 	await app.startAllMicroservices();
 	await app.listen(3002);
+	console.log(`Application is running on: ${await (await app.getUrl()).includes('[::1]') ? (await app.getUrl()).replace('[::1]', "localhost") : await app.getUrl()}`);
 }
 bootstrap();
