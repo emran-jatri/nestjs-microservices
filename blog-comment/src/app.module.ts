@@ -8,11 +8,11 @@ import { AppService } from './app.service';
 	imports: [
 		ClientsModule.register([
       {
-        name: 'COMMENT_SERVICE',
+        name: 'MAIN_SERVICE',
         transport: Transport.RMQ,
         options: {
           urls: ['amqps://jibzlvbd:QwX5CKtkkKdCtukf72eUxQSUO4vecBzE@dingo.rmq.cloudamqp.com/jibzlvbd'],
-          queue: 'user_queue',
+          queue: 'main_queue',
           queueOptions: {
             durable: false
           },

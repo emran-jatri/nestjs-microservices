@@ -1,24 +1,28 @@
 import { Controller, Get, Inject } from '@nestjs/common';
 import { AppService } from './app.service';
 import { ClientProxy } from '@nestjs/microservices/client';
-import { MessagePattern } from '@nestjs/microservices';
+import { EventPattern, MessagePattern } from '@nestjs/microservices';
 
 @Controller()
 export class AppController {
 	constructor(
 		private readonly appService: AppService,
-		@Inject("COMMENT_SERVICE") private readonly client: ClientProxy
+		@Inject("MAIN_SERVICE") private readonly mainClient: ClientProxy
 	) { }
 
   @Get()
 	getHello(): string {
-		this.client.emit('comment-hello', "Hello World! from Comment!");
     return this.appService.getHello();
 	}
 	
-	@MessagePattern('post')
-	eventFromPost(data: string) {
-		console.log(data);
+	@EventPattern('user_create')
+	userCreate(data: string): void {
+		console.log("comment service: ", data)
+	}
+
+	@EventPattern('post_create')
+	postCreate(data: string): void {
+		console.log("comment service: ", data)
 	}
 
 }
