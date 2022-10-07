@@ -7,25 +7,11 @@ import { AppService } from './app.service';
 export class AppController {
 	constructor(
 		private readonly appService: AppService,
-		@Inject('MAIN_SERVICE') private readonly mainClient: ClientProxy,
 	) { }
 
   @Get()
 	getHello(): string {
     return this.appService.getHello();
 	}
-	
-	@Get('/post-create')
-	postCreate() {
-		this.mainClient.emit('post_create', "Post created successfully!");
-		console.log("------------ postCreate ---------")
-		return "Post created successfully!"
-	}
-
-	@EventPattern('user_create')
-	userCreate(data: string): void {
-		console.log("post service: ", data)
-	}
-
 
 }

@@ -4,10 +4,29 @@ import { Transport } from '@nestjs/microservices/enums';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { UserModule } from './user/user.module';
 
 @Module({
 	imports: [
-		MongooseModule.forRoot('mongodb://localhost/blog-comment'),
+	MongooseModule.forRoot('mongodb://localhost/blog-comment'),
+		ClientsModule.register([
+      {
+        name: 'MAIN_SERVICE',
+        transport: Transport.RMQ,
+        options: {
+          urls: ['amqps://jibzlvbd:QwX5CKtkkKdCtukf72eUxQSUO4vecBzE@dingo.rmq.cloudamqp.com/jibzlvbd'],
+          queue: 'main_queue',
+          queueOptions: {
+            durable: false
+          },
+        },
+      },
+		]),
+		UserModule,
+	],
+  controllers: [AppController],
+	providers: [AppService],
+	exports: [
 		ClientsModule.register([
       {
         name: 'MAIN_SERVICE',
@@ -21,8 +40,6 @@ import { AppService } from './app.service';
         },
       },
     ]),
-	],
-  controllers: [AppController],
-  providers: [AppService],
+	]
 })
 export class AppModule {}

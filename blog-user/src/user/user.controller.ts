@@ -1,13 +1,22 @@
-import { Controller, Post, Body } from '@nestjs/common';
+import { Controller, Post, Body, Inject } from '@nestjs/common';
 import { UserService } from './user.service';
+import { ClientProxy } from '@nestjs/microservices';
 
 @Controller('user')
 export class UserController {
-	constructor(private readonly userService: UserService) { }
+	constructor(
+		private readonly userService: UserService,
+		@Inject("MAIN_SERVICE") private readonly mainClient: ClientProxy,
+	) { }
 	
 	@Post('/create')
-	create(@Body() data: any) {
-		console.log("user-create: ",data)
-		return this.userService.create(data);
+	async create(@Body() data: any) {
+		const user = await this.userService.create(data);
+
+		console.log("user => user-create: ", user)
+		
+		this.mainClient.emit('user_create', user);
+
+		return user
 	}
 }
