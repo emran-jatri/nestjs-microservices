@@ -19,4 +19,15 @@ export class UserController {
 
 		return user
 	}
+	
+	@Post('/update')
+	async update(@Body() data: any) {
+		const user = await this.userService.update(data);
+
+		console.log("user => user-update: ", user)
+		
+		this.mainClient.emit('user_update', user);
+
+		return user
+	}
 }

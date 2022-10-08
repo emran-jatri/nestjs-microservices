@@ -14,4 +14,9 @@ export class UserService {
 		return new this.userModel(data).save()
 	}
 
+	update(data) {
+		const {_id, user} = data
+		return this.userModel.findOneAndUpdate({_id}, {$set: user}, {new: true, runValidators: true})
+	}
+
 }
